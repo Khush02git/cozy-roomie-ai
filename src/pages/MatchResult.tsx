@@ -1,12 +1,32 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MessageCircle, Home, Sparkles } from "lucide-react";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
+import avatar3 from "@/assets/avatar-3.jpg";
+import avatar4 from "@/assets/avatar-4.jpg";
+import avatar5 from "@/assets/avatar-5.jpg";
+import avatar6 from "@/assets/avatar-6.jpg";
 
 const MatchResult = () => {
   const navigate = useNavigate();
+  const [userAvatarSrc, setUserAvatarSrc] = useState(avatar1);
+
+  const avatarImages = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
+
+  useEffect(() => {
+    const savedAvatar = localStorage.getItem('userAvatar');
+    if (savedAvatar) {
+      const avatarData = JSON.parse(savedAvatar);
+      if (avatarData.type === 'uploaded') {
+        setUserAvatarSrc(avatarData.data);
+      } else if (avatarData.type === 'selected') {
+        setUserAvatarSrc(avatarImages[avatarData.index]);
+      }
+    }
+  }, []);
 
   return (
     <div className="min-h-screen gradient-pages py-16">
@@ -31,7 +51,7 @@ const MatchResult = () => {
               <div className="p-6">
                 <div className="w-32 h-32 rounded-xl overflow-hidden mb-4">
                   <img 
-                    src={avatar1}
+                    src={userAvatarSrc}
                     alt="Your avatar"
                     className="w-full h-full object-cover"
                   />

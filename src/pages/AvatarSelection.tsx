@@ -33,7 +33,12 @@ const AvatarSelection = () => {
   };
 
   const handleConfirm = () => {
-    // Here you would save the avatar selection
+    // Save the avatar selection to localStorage
+    if (uploadedImage) {
+      localStorage.setItem('userAvatar', JSON.stringify({ type: 'uploaded', data: uploadedImage }));
+    } else if (selectedAvatar !== null) {
+      localStorage.setItem('userAvatar', JSON.stringify({ type: 'selected', index: selectedAvatar }));
+    }
     navigate("/match-result");
   };
 
